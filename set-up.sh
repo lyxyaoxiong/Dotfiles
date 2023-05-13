@@ -4,6 +4,7 @@
 # sudo apt-get install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+<<<<<<< HEAD
 # install pyenv and latest Python version
 curl https://pyenv.run | bash
 
@@ -30,5 +31,25 @@ pyenv global $PYTHON_VERSION
 
 pip install dotfiles
 dotfiles -s
+
+if [[ $OSTYPE == 'darwin'* ]]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  brew update
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/yx/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  brew install pyenv
+  echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+  echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+  brew install openssl readline sqlite3 xz zlib
+
+  python_version=3.10.0
+  pyenv install $python_version
+  pyenv global $python_version
+  pip install dotfiles
+  hash -r
+
+  brew install rbenv
+fi
 
 # .vimrc (https://github.com/amix/vimrc)
