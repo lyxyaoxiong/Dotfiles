@@ -4,52 +4,38 @@
 # sudo apt-get install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-<<<<<<< HEAD
-# install pyenv and latest Python version
-curl https://pyenv.run | bash
-
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zprofile
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zprofile
-echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
-
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-echo 'eval "$(pyenv init --path)"' >> ~/.profile
-
-echo 'eval "$(pyenv init -)"' >> ~/.zshrc
-echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
-
-. ~/.zshrc
-
-
-# pyenv install $(pyenv install -l | awk '{$1=$1;print}' | grep -P '^\d+\.\d+\.\d+$' | tail -1)
-PYTHON_VERSION=3.8
-PYTHON_VERSION=$(pyenv install -l | grep -P "^\s+$PYTHON_VERSION\.\d+$" | tail -1 | awk '{$1=$1; print;}')
-
-yes | pyenv install $PYTHON_VERSION
-pyenv global $PYTHON_VERSION
-
-pip install dotfiles
-dotfiles -s
-
+# TODO: make it generic to install on other OS
 if [[ $OSTYPE == 'darwin'* ]]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  brew update
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/yx/.zprofile
+  # install homebrew: https://brew.sh/
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
+  # install pyenv: https://github.com/pyenv/pyenv#homebrew-in-macos
   brew install pyenv
-  echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+  # If you wish to get Pyenv in noninteractive login shells as well, also add the commands to ~/.zprofile or ~/.zlogin.
+  echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+  echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
   echo 'eval "$(pyenv init -)"' >> ~/.zshrc
-  brew install openssl readline sqlite3 xz zlib
 
-  python_version=3.10.0
-  pyenv install $python_version
-  pyenv global $python_version
-  pip install dotfiles
+  # Install Python build dependencies
+  brew install openssl readline sqlite3 xz zlib tcl-tk
+
+  # Get the latest stable python version: https://www.python.org/downloads/macos/
+  pyenv install $(pyenv latest -k 3)
+  pyenv global $(pyenv latest -k 3)
+  
+  . ~/.zshrc
+  
+  pip3 install dotfiles
   hash -r
 
   brew install rbenv
 fi
+
+. ~/.zshrc
+
+pip install dotfiles
+dotfiles -s
 
 # .vimrc (https://github.com/amix/vimrc)
