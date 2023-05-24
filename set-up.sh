@@ -28,6 +28,12 @@ if [[ $OSTYPE == 'darwin'* ]]; then
   . ~/.zshrc
   
   pip3 install dotfiles
+  
+  cd ~; git clone --recurse-submodules https://github.com/lyxyaoxiong/Dotfiles.git
+  dotfiles -s
+  
+  echo 'source ~/.zshrc_common' >> ~/.zshrc
+  
   hash -r
 
   brew install rbenv
