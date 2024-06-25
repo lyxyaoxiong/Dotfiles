@@ -175,3 +175,5 @@ magic-enter () {
 }
 zle -N magic-enter
 bindkey "^M" magic-enter
+
+alias watchh='watch -c ' # force alias used in command to be expanded before passed to watch https://askubuntu.com/a/1386212
