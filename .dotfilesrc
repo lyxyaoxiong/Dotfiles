@@ -3,7 +3,8 @@ repository = ~/Dotfiles
 ignore = [
     '.git',
     '.gitignore',
-    '*.swp']
+    '*.swp',
+    '.DS_Store',]
 externals = {
     '.bzr.log':     '/dev/null',
     '.uml':         '/tmp'}
